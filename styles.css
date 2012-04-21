@@ -1,0 +1,17 @@
+/*
+ * styles.css
+ * ----------
+ *
+ * Tiny Quest
+ * Copyright (c) 2012 Laurent Couvidou
+ * Contact : lorancou@free.fr
+ *
+ * This program is free software - see README for details.
+ */
+
+table {
+	vertical-align: middle;
+    width: 512px;
+	height: 100%;
+	margin: 0 auto;
+}
