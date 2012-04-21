@@ -84,7 +84,7 @@ function init()
     }
 
     // clear canvas
-    g_context.fillStyle = "#000000";
+    g_context.fillStyle = "#FF00FF";
     g_context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     // inputs init

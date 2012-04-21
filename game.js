@@ -12,16 +12,19 @@
 //-------------------------------------------------------------------------------
 // game constants
 var PRINCE_SPEED = 1.0;
+var PRINCE_SIZE = 32;
 
 //-------------------------------------------------------------------------------
 // game init
 var g_princeImg;
+var g_princePosX = 256;
+var g_princePosY = 256;
 function gameInit()
 {
-	log("gameInit");
+	// init prince
     g_princeImg = new Image();
-    //g_princeImg.src = "prince.png";
-    //g_princeImg.onload = function() { /* game should wait for this to start, but meh. */ };
+    g_princeImg.src = "prince.png";
+    g_princeImg.onload = function() { /* game should wait for this to start, but meh. */ };
 }
 
 //-------------------------------------------------------------------------------
@@ -34,4 +37,9 @@ function gameUpdate()
 // game draw
 function gameDraw()
 {
+    // draw prince
+    g_context.drawImage(
+        g_princeImg,
+        g_princePosX-PRINCE_SIZE/2, g_princePosX-PRINCE_SIZE/2,
+        PRINCE_SIZE, PRINCE_SIZE);
 }
