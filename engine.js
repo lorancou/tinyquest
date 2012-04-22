@@ -11,10 +11,10 @@
 
 //-------------------------------------------------------------------------------
 // engine constants
-var CANVAS_WIDTH = 512;
-var CANVAS_HEIGHT = 512;
-var CANVAS_CENTER_X = CANVAS_WIDTH * 0.5;
-var CANVAS_CENTER_Y = CANVAS_HEIGHT * 0.5;
+var CANVAS_WIDTH = 256;
+var CANVAS_HEIGHT = 256;
+var CANVAS_CENTER_X = CANVAS_WIDTH/2;
+var CANVAS_CENTER_Y = CANVAS_HEIGHT/2;
 
 //-------------------------------------------------------------------------------
 // log
