@@ -14,7 +14,7 @@
 var PRINCE_SPEED = 1.0;
 var PRINCE_SIZE = 32;
 var PRINCE_SPEED = 2;
-var KONAMI_CODE = ["up","up","down","down","left","right","left","right","b","a"];
+var KONAMI_CODE = ["a","b","right","left","right","left","down","down","up","up"];
 var APPLE_TREE_X = 68;
 var APPLE_TREE_Y = 84;
 var BRIDGE_X = 204;
@@ -154,10 +154,17 @@ function gameDraw()
         g_worldImg,
         0, 0,
         CANVAS_WIDTH, CANVAS_HEIGHT);
+	
+	// a bit of movement feedback
+	var yOffset = 0;
+	if (g_leftPressed || g_rightPressed || g_upPressed || g_downPressed)
+	{
+		yOffset = 4 * Math.abs(Math.sin(g_lastTime));
+	}
 
     // draw prince
     g_context.drawImage(
         g_princeImg,
-        g_princeX - PRINCE_SIZE/2, g_princeY - PRINCE_SIZE/2,
+        g_princeX - PRINCE_SIZE/2, g_princeY - PRINCE_SIZE/2 - yOffset,
         PRINCE_SIZE, PRINCE_SIZE);
 }

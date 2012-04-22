@@ -9,9 +9,38 @@
  * This program is free software - see README for details.
  */
 
+html, body {
+    color: white;
+    background: black;
+}
+
 table {
 	vertical-align: middle;
     width: 256px;
 	height: 100%;
 	margin: 0 auto;
+}
+
+p#footer {
+    text-align: right;
+}
+
+a:link{
+    color: #888888;
+    text-decoration: none;
+}
+
+a:visited{
+    color: #888888;
+    text-decoration: none;
+}
+
+a:hover{
+    color: #aaaaaa;
+    text-decoration: underline;
+}
+
+a:active{
+    color: #ffaaaa;
+    text-decoration: underline;
 }
