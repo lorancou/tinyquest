@@ -146,19 +146,19 @@ function exit()
 
 //-------------------------------------------------------------------------------
 // inputs
-var g_ie = document.all ? true : false;	
+var g_ie = document.all ? true : false;    
 var g_leftPressed = false;
 var g_upPressed = false;
 var g_rightPressed = false;
 var g_downPressed = false;
 function keyDown(e)
 {
-	var ev = null;
-	if (g_ie) ev = event;
-	else ev = e;
+    var ev = null;
+    if (g_ie) ev = event;
+    else ev = e;
     if (ev == null) return;
     
-	//log("key down: " + ev.keyCode);
+    //log("key down: " + ev.keyCode);
 
     switch ( ev.keyCode )
     {
@@ -170,12 +170,12 @@ function keyDown(e)
 }
 function keyUp(e)
 {
-	var ev = null;
-	if (g_ie) ev = event;
-	else ev = e;
+    var ev = null;
+    if (g_ie) ev = event;
+    else ev = e;
     if (ev == null) return;
     
-	//log("key up: " + ev.keyCode);
+    //log("key up: " + ev.keyCode);
 
     switch ( ev.keyCode )
     {
