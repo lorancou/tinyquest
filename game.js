@@ -14,21 +14,33 @@
 var PRINCE_SPEED = 1.0;
 var PRINCE_SIZE = 32;
 var PRINCE_SPEED = 2;
-var KONAMI_CODE = ["up","up","down","down","left","right","left","right"];//,"b","a"];
+var KONAMI_CODE = ["up","up","down","down","left","right","left","right","b","a"];
+var APPLE_TREE_X = 68;
+var APPLE_TREE_Y = 84;
+var BRIDGE_X = 204;
+var BRIDGE_Y = 148;
+var TRIGGER_DIST = 16;
+var TRIGGER_SQDIST = TRIGGER_DIST*TRIGGER_DIST;
 
 //-------------------------------------------------------------------------------
 // game init
 var g_princeImg;
-var g_princePosX = CANVAS_CENTER_X;
-var g_princePosY = CANVAS_CENTER_Y;
+var g_worldImg;
+var g_princeX = CANVAS_CENTER_X;
+var g_princeY = CANVAS_CENTER_Y;
 var g_konamiProgress = 0;
 function gameInit()
 {
-	// init prince
+	// init prince image
     g_princeImg = new Image();
     g_princeImg.src = "prince.png";
     g_princeImg.onload = function() { /* game should wait for this to start, but meh. */ };
 	
+	// init world image
+    g_worldImg = new Image();
+    g_worldImg.src = "world.png";
+    g_worldImg.onload = function() { /* game should wait for this to start, but meh. */ };
+
 	// init progress
 	g_konamiProgress = 0;
 }
@@ -38,48 +50,48 @@ function gameInit()
 function gameUpdate()
 {
 	// move prince
-	if (g_leftPressed) g_princePosX -= PRINCE_SPEED;
-	if (g_rightPressed) g_princePosX += PRINCE_SPEED;
-	if (g_upPressed) g_princePosY -= PRINCE_SPEED;
-	if (g_downPressed) g_princePosY += PRINCE_SPEED;
+	if (g_leftPressed) g_princeX -= PRINCE_SPEED;
+	if (g_rightPressed) g_princeX += PRINCE_SPEED;
+	if (g_upPressed) g_princeY -= PRINCE_SPEED;
+	if (g_downPressed) g_princeY += PRINCE_SPEED;
 	
 	// wrap around tiny world
 	var trigger = false;
 	var progress = false;
-	if (g_princePosX<0)
+	if (g_princeX<0)
 	{
 		// wrap left
-		g_princePosX = CANVAS_WIDTH-1;
+		g_princeX = CANVAS_WIDTH-1;
 		trigger = true;
 		if (KONAMI_CODE[g_konamiProgress] == "left")
 		{
 			progress = true;
 		}
 	}
-	else if (g_princePosX>=CANVAS_WIDTH)
+	else if (g_princeX>=CANVAS_WIDTH)
 	{
 		// wrap right
-		g_princePosX = 0;
+		g_princeX = 0;
 		trigger = true;
 		if (KONAMI_CODE[g_konamiProgress] == "right")
 		{
 			progress = true;
 		}
 	}
-	else if (g_princePosY<0)
+	else if (g_princeY<0)
 	{
 		// wrap up
-		g_princePosY = CANVAS_HEIGHT-1;
+		g_princeY = CANVAS_HEIGHT-1;
 		trigger = true;
 		if (KONAMI_CODE[g_konamiProgress] == "up")
 		{
 			progress = true;
 		}
 	}
-	else if (g_princePosY>=CANVAS_HEIGHT)
+	else if (g_princeY>=CANVAS_HEIGHT)
 	{
 		// wrap down
-		g_princePosY = 0;
+		g_princeY = 0;
 		trigger = true;
 		if (KONAMI_CODE[g_konamiProgress] == "down")
 		{
@@ -87,6 +99,30 @@ function gameUpdate()
 		}
 	}
 	
+	// check if touched apple tree
+	var dx = APPLE_TREE_X - g_princeX;
+	var dy = APPLE_TREE_Y - g_princeY;
+	if (TRIGGER_SQDIST > (dx*dx + dy*dy))
+	{
+		if (KONAMI_CODE[g_konamiProgress] == "a")
+		{
+			trigger = true;
+			progress = true;
+		}
+	}
+	
+	// check if touched bridge
+	var dx = BRIDGE_X - g_princeX;
+	var dy = BRIDGE_Y - g_princeY;
+	if (TRIGGER_SQDIST > (dx*dx + dy*dy))
+	{
+		if (KONAMI_CODE[g_konamiProgress] == "b")
+		{
+			trigger = true;
+			progress = true;
+		}
+	}
+
 	// check progress in Konami code
 	if (trigger)
 	{
@@ -95,6 +131,7 @@ function gameUpdate()
 			if ((++g_konamiProgress) >= KONAMI_CODE.length)
 			{
 				exit();
+				return;
 			}
 			log("Progress: " + g_konamiProgress);
 		}
@@ -104,19 +141,23 @@ function gameUpdate()
 			log("Progress reset");
 		}
 	}
+	
+	//log(g_princeX + "," + g_princeY);
 }
 
 //-------------------------------------------------------------------------------
 // game draw
 function gameDraw()
 {
-    // clear canvas
-    g_context.fillStyle = "#FF00FF";
-    g_context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    // draw world
+    g_context.drawImage(
+        g_worldImg,
+        0, 0,
+        CANVAS_WIDTH, CANVAS_HEIGHT);
 
     // draw prince
     g_context.drawImage(
         g_princeImg,
-        g_princePosX - PRINCE_SIZE/2, g_princePosY - PRINCE_SIZE/2,
+        g_princeX - PRINCE_SIZE/2, g_princeY - PRINCE_SIZE/2,
         PRINCE_SIZE, PRINCE_SIZE);
 }
