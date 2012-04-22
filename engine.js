@@ -15,6 +15,7 @@ var CANVAS_WIDTH = 256;
 var CANVAS_HEIGHT = 256;
 var CANVAS_CENTER_X = CANVAS_WIDTH/2;
 var CANVAS_CENTER_Y = CANVAS_HEIGHT/2;
+var EXIT_URL = "http://www.youtube.com/v/c38lPvrPuT4?autoplay=1";
 
 //-------------------------------------------------------------------------------
 // log
@@ -139,6 +140,7 @@ function update()
 function exit()
 {
     log("exit");
+    window.location = EXIT_URL;
     g_exited = true;
 }
 
