@@ -19,16 +19,25 @@ var APPLE_TREE_X = 68;
 var APPLE_TREE_Y = 84;
 var BRIDGE_X = 204;
 var BRIDGE_Y = 148;
-var TRIGGER_DIST = 16;
+var TRIGGER_DIST = 32;
 var TRIGGER_SQDIST = TRIGGER_DIST*TRIGGER_DIST;
+var BUBBLE_WIDTH = 64;
+var BUBBLE_HEIGHT = 32;
+var BUBBLE_OFFSET_X = -32;
+var BUBBLE_OFFSET_Y = -52;
+var BUBBLE_TICKS = 120;
 
 //-------------------------------------------------------------------------------
 // game init
 var g_princeImg;
 var g_worldImg;
+var g_bubbleImgs = new Array();
+var g_bubbleMissImg;
 var g_princeX = CANVAS_CENTER_X;
 var g_princeY = CANVAS_CENTER_Y;
 var g_konamiProgress = 0;
+var g_progressTick = -1000;
+var g_missTick = -1000;
 function gameInit()
 {
 	// init prince image
@@ -41,6 +50,17 @@ function gameInit()
     g_worldImg.src = "world.png";
     g_worldImg.onload = function() { /* game should wait for this to start, but meh. */ };
 
+	// init bubble miss image
+    g_bubbleMissImg = new Image();
+    g_bubbleMissImg.src = "bubble_miss.png";
+	
+	// init bubble images
+	for (var i=0; i<KONAMI_CODE.length; ++i)
+	{
+		g_bubbleImgs.push(new Image());
+		g_bubbleImgs[i].src = "bubble_"+i+".png";
+	}
+	
 	// init progress
 	g_konamiProgress = 0;
 }
@@ -128,6 +148,7 @@ function gameUpdate()
 	{
 		if (progress)
 		{
+			g_progressTick = g_tick;
 			if ((++g_konamiProgress) >= KONAMI_CODE.length)
 			{
 				exit();
@@ -137,6 +158,7 @@ function gameUpdate()
 		}
 		else
 		{
+			g_missTick = g_tick;
 			g_konamiProgress = 0;
 			log("Progress reset");
 		}
@@ -167,4 +189,20 @@ function gameDraw()
         g_princeImg,
         g_princeX - PRINCE_SIZE/2, g_princeY - PRINCE_SIZE/2 - yOffset,
         PRINCE_SIZE, PRINCE_SIZE);
+	
+	// draw bubble
+	if ((g_tick - g_missTick) < BUBBLE_TICKS)
+	{
+		g_context.drawImage(
+			g_bubbleMissImg,
+			g_princeX + BUBBLE_OFFSET_X, g_princeY + BUBBLE_OFFSET_Y,
+			BUBBLE_WIDTH, BUBBLE_HEIGHT);
+	}
+	else if (g_konamiProgress>0 && ((g_tick - g_progressTick) < BUBBLE_TICKS))
+	{
+		g_context.drawImage(
+			g_bubbleImgs[g_konamiProgress-1],
+			g_princeX + BUBBLE_OFFSET_X, g_princeY + BUBBLE_OFFSET_Y,
+			BUBBLE_WIDTH, BUBBLE_HEIGHT);
+	}
 }
