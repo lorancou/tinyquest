@@ -5,7 +5,7 @@ Game entry for Ludum Dare #23, theme: Tiny World
 --------------------------------------------------------------------------------
 
 Copyright (c) 2012 Laurent Couvidou  
-Contact: <lorancou@free.fr>
+Contact: <hello@lorancou.net>
 
 "The Prince is lost in the tiny world of Imanok. Help him find his princess with
 your mighty arrow keys."
